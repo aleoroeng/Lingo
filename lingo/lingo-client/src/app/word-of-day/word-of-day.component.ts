@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Noun } from './model/Noun';
-import { NounService } from './services/noun.service';
+import { Noun } from '../model/Noun';
+import { NounService } from '../services/noun.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-word-of-day',
+  templateUrl: './word-of-day.component.html',
+  styleUrls: ['./word-of-day.component.css'],
 })
-export class AppComponent implements OnInit {
-  title = 'lingo-client';
+export class WordOfDayComponent implements OnInit {
   fetchedWord = '';
+  wordOfDay = '';
   listOfNouns: Noun[] = [];
   constructor(private nounService: NounService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getWordOfDay();
+  }
 
   getWordById(id: number): void {
     this.nounService.getWordById(id).subscribe((fetchedWord) => {
@@ -25,6 +27,11 @@ export class AppComponent implements OnInit {
     this.nounService.getWordByValue(noun).subscribe((listOfNouns) => {
       console.log(listOfNouns);
       this.listOfNouns = listOfNouns;
+    });
+  }
+  getWordOfDay(): void {
+    this.nounService.getWordOfDay().subscribe((noun) => {
+      this.wordOfDay = noun['value'];
     });
   }
 }

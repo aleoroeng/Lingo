@@ -3,7 +3,6 @@ package com.ale.lingo.model;
 import com.ale.lingo.enums.WordAttributes;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Noun{
@@ -11,20 +10,32 @@ public class Noun{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private long id;
     @Enumerated(EnumType.ORDINAL)
     WordAttributes nounAttribute;
     private String value;
+    private boolean approved;
 
     public Noun(){}
-
-    public Noun(int id, WordAttributes nounAttribute, String value) {
+    public Noun(String value){
+        this.value = value;
+    }
+    public Noun(long id, WordAttributes nounAttribute, String value) {
         this.id = id;
         this.nounAttribute = nounAttribute;
         this.value = value;
+        this.approved = false;
     }
 
-    public int getId() {
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public long getId() {
         return id;
     }
 
@@ -47,9 +58,10 @@ public class Noun{
     @Override
     public String toString() {
         return "Noun{" +
-                "nounAttribute=" + nounAttribute +
-                ", id=" + id +
+                "id=" + id +
+                ", nounAttribute=" + nounAttribute +
                 ", value='" + value + '\'' +
+                ", approved=" + approved +
                 '}';
     }
 }

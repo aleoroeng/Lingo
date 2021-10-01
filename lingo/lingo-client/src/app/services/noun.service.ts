@@ -7,10 +7,21 @@ import { Noun } from '../model/Noun';
   providedIn: 'root',
 })
 export class NounService {
-  nounUrl = 'http;//localhost:8080/word/';
+  nounUrl = 'http://localhost:8080/word';
   constructor(private http: HttpClient) {}
 
-  public getWord(value: string): Observable<Noun> {
-    return this.http.get<Noun>(this.nounUrl + value);
+  public getWordById(id: number): Observable<Noun> {
+    return this.http.get<Noun>(this.nounUrl, {
+      params: {
+        id: id,
+      },
+    });
+  }
+  public getWordByValue(noun: Noun): Observable<Noun[]> {
+    return this.http.post<Noun[]>(this.nounUrl + `/value`, noun);
+  }
+
+  public getWordOfDay(): Observable<Noun> {
+    return this.http.get<Noun>(this.nounUrl + '/daily');
   }
 }

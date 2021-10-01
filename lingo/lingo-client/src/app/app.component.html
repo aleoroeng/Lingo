@@ -1,1 +1,5 @@
-<h1>Hi</h1>
+<h1>Hi {{ fetchedWord }}</h1>
+<div>
+  <p *ngFor="let noun of listOfNouns">{{ noun["value"] }}</p>
+</div>
+<app-word-of-day></app-word-of-day>
