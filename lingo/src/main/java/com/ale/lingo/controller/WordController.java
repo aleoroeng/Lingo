@@ -1,6 +1,7 @@
 package com.ale.lingo.controller;
 
 import com.ale.lingo.model.Noun;
+import com.ale.lingo.service.WordInterface;
 import com.ale.lingo.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +20,23 @@ public class WordController {
     }
 
     @GetMapping()
-    public Noun getWordById(@RequestParam int id){
-        System.out.println(id);
-        return this.wordService.getNounById(id);
+    public Noun getWordById(@RequestBody Noun noun){
+        WordInterface wordInterface = this.wordService.getLanguageRepository(noun);
+        return wordInterface.getNounById(noun.getId());
     }
     @PostMapping
     public Noun saveNoun(@RequestBody Noun noun){
-        System.out.println(noun);
-        return this.wordService.saveNoun(noun);
+        WordInterface wordInterface = this.wordService.getLanguageRepository(noun);
+        return wordInterface.saveNoun(noun);
     }
     @PostMapping("/value")
     public Noun getNounByValue(@RequestBody Noun noun){
-        System.out.println(noun);
-        return this.wordService.getNounByValue(noun.getValue());
+        WordInterface wordInterface = wordService.getLanguageRepository(noun);
+        return wordInterface.getNounByValue(noun.getValue());
     }
-    @GetMapping("/daily")
-    public Noun wordOfTheDay(){return this.wordService.nounOfTheDay();}
+    @PostMapping("/daily")
+    public Noun wordOfTheDay(@RequestBody Noun noun){
+        WordInterface wordInterface = wordService.getLanguageRepository(noun);
+        return wordInterface.nounOfTheDay();
+    }
 }

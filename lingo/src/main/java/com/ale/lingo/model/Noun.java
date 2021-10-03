@@ -1,20 +1,24 @@
 package com.ale.lingo.model;
 
+import com.ale.lingo.enums.LanguageCode;
 import com.ale.lingo.enums.WordAttributes;
 
 import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Noun{
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    protected long id;
     @Enumerated(EnumType.ORDINAL)
-    WordAttributes nounAttribute;
-    private String value;
-    private boolean approved;
+    protected WordAttributes nounAttribute;
+    protected String value;
+    protected boolean approved;
+    @Enumerated(EnumType.ORDINAL)
+    protected LanguageCode languageCode;
 
     public Noun(){}
     public Noun(String value){
@@ -25,6 +29,14 @@ public class Noun{
         this.nounAttribute = nounAttribute;
         this.value = value;
         this.approved = false;
+    }
+
+    public LanguageCode getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(LanguageCode languageCode) {
+        this.languageCode = languageCode;
     }
 
     public boolean isApproved() {
