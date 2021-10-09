@@ -5,10 +5,12 @@ import com.ale.lingo.model.Russian;
 import com.ale.lingo.repository.RussianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.Random;
 
+@Service
 public class RussianService implements WordInterface{
 
     private final RussianRepository russianRepository;

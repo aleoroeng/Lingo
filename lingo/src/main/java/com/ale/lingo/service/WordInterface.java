@@ -1,10 +1,6 @@
 package com.ale.lingo.service;
 
 import com.ale.lingo.model.Noun;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.LinkedList;
-import java.util.Random;
 
 public interface WordInterface {
     Noun nounOfTheDay();

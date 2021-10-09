@@ -4,10 +4,12 @@ import com.ale.lingo.model.Noun;
 import com.ale.lingo.repository.KoreanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.Random;
 
+@Service
 public class KoreanService implements WordInterface{
 
     private final KoreanRepository koreanRepository;
