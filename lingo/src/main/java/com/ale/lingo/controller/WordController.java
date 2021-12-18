@@ -1,42 +1,47 @@
 package com.ale.lingo.controller;
 
+import com.ale.lingo.dto.NounDTO;
 import com.ale.lingo.model.Noun;
+import com.ale.lingo.service.WordFactory;
 import com.ale.lingo.service.WordInterface;
-import com.ale.lingo.service.WordService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.LinkedList;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/word")
 @CrossOrigin("*")
 public class WordController {
-    private final WordService wordService;
+    private final WordFactory wordFactory;
 
     @Autowired
-    public WordController(WordService wordService){
-        this.wordService = wordService;
+    public WordController(WordFactory wordFactory){
+        this.wordFactory = wordFactory;
     }
 
-    @GetMapping()
-    public Noun getWordById(@RequestBody Noun noun){
-        WordInterface wordInterface = this.wordService.getLanguageRepository(noun);
-        return wordInterface.getNounById(noun.getId());
+    @GetMapping
+    public NounDTO getWordById(@RequestBody NounDTO noun){
+        System.out.println(noun);
+        WordInterface wordInterface = this.wordFactory.getWordService(noun.getLanguageCode());
+        return wordInterface.saveNoun(noun);
     }
     @PostMapping
-    public Noun saveNoun(@RequestBody Noun noun){
-        WordInterface wordInterface = this.wordService.getLanguageRepository(noun);
+    public NounDTO saveNoun(@RequestBody NounDTO noun){
+        WordInterface wordInterface = this.wordFactory.getWordService(noun.getLanguageCode());
         return wordInterface.saveNoun(noun);
     }
     @PostMapping("/value")
-    public Noun getNounByValue(@RequestBody Noun noun){
-        WordInterface wordInterface = wordService.getLanguageRepository(noun);
+    public NounDTO getNounByValue(@RequestBody Noun noun){
+        WordInterface wordInterface = this.wordFactory.getWordService(noun.getLanguageCode());
         return wordInterface.getNounByValue(noun.getValue());
     }
     @PostMapping("/daily")
-    public Noun wordOfTheDay(@RequestBody Noun noun){
-        WordInterface wordInterface = wordService.getLanguageRepository(noun);
+    public NounDTO wordOfTheDay(@RequestBody Noun noun){
+        WordInterface wordInterface = this.wordFactory.getWordService(noun.getLanguageCode());
         return wordInterface.nounOfTheDay();
     }
 }

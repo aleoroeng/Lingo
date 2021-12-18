@@ -1,5 +1,6 @@
 package com.ale.lingo.service;
 
+import com.ale.lingo.dto.NounDTO;
 import com.ale.lingo.model.Noun;
 import com.ale.lingo.model.Russian;
 import com.ale.lingo.repository.RussianRepository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.Random;
 
-@Service
+@Service("RU")
 public class RussianService implements WordInterface{
 
     private final RussianRepository russianRepository;
@@ -32,12 +33,14 @@ public class RussianService implements WordInterface{
         return this.russianRepository.save(noun);
     }
 
-    public Noun getNounByValue(String value){return this.russianRepository.findByValue(value);}
+    public NounDTO getNounByValue(String value){
+        Russian noun = this.russianRepository.findByValue(value);
+        return NounDTO.builder().noun(noun).build();
+    }
 
     //Return random Noun from table for noun of the day feature
     @Override
-    public Noun nounOfTheDay(){
-        int[] nounsInTable = {0};
+    public NounDTO nounOfTheDay(){
         Random randomNum = new Random();
         LinkedList<Long> nounIds = new LinkedList<>();
 
@@ -52,16 +55,17 @@ public class RussianService implements WordInterface{
         }
 
         long randomId = nounIds.get(randomNum.nextInt(nounIds.size()));
-        return this.russianRepository.findById(randomId).orElse(null);
+        Russian randomWord= this.russianRepository.findById(randomId).orElse(null);
+        return NounDTO.builder().noun(randomWord).build();
     }
 
     @Override
-    public Noun saveNoun(Noun noun) {
+    public NounDTO saveNoun(NounDTO noun) {
         return null;
     }
 
     @Override
-    public Noun getNounById(long id) {
+    public NounDTO getNounById(long id) {
         return null;
     }
 }

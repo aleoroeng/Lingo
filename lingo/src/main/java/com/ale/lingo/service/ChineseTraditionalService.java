@@ -1,5 +1,7 @@
 package com.ale.lingo.service;
 
+import com.ale.lingo.dto.NounDTO;
+import com.ale.lingo.model.ChineseTraditional;
 import com.ale.lingo.model.Noun;
 import com.ale.lingo.repository.ChineseTraditionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.Random;
 
-@Service
+@Service("ZHT")
 public class ChineseTraditionalService implements WordInterface{
 
     private final ChineseTraditionalRepository chineseTraditionalRepository;
@@ -25,8 +27,7 @@ public class ChineseTraditionalService implements WordInterface{
     }
 
     //Return random Noun from table for noun of the day feature
-    public Noun nounOfTheDay(){
-        int[] nounsInTable = {0};
+    public NounDTO nounOfTheDay(){
         Random randomNum = new Random();
         LinkedList<Long> nounIds = new LinkedList<>();
 
@@ -41,21 +42,22 @@ public class ChineseTraditionalService implements WordInterface{
         }
 
         long randomId = nounIds.get(randomNum.nextInt(nounIds.size()));
-        return this.chineseTraditionalRepository.findById(randomId).orElse(null);
+        ChineseTraditional randomWord = this.chineseTraditionalRepository.findById(randomId).orElse(null);
+        return NounDTO.builder().noun(randomWord).build();
     }
 
     @Override
-    public Noun saveNoun(Noun noun) {
+    public NounDTO saveNoun(NounDTO noun) {
         return null;
     }
 
     @Override
-    public Noun getNounById(long id) {
+    public NounDTO getNounById(long id) {
         return null;
     }
 
     @Override
-    public Noun getNounByValue(String value) {
+    public NounDTO getNounByValue(String value) {
         return null;
     }
 }

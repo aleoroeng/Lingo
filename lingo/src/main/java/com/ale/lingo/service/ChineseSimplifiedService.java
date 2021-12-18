@@ -1,13 +1,15 @@
 package com.ale.lingo.service;
 
-import com.ale.lingo.model.Noun;
+import com.ale.lingo.dto.NounDTO;
+import com.ale.lingo.model.ChineseSimplified;
 import com.ale.lingo.repository.ChineseSimplifiedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.Random;
 
+@Service("ZHS")
 public class ChineseSimplifiedService implements WordInterface{
 
     private final ChineseSimplifiedRepository chineseSimplifiedRepository;
@@ -19,19 +21,19 @@ public class ChineseSimplifiedService implements WordInterface{
 
     //Method that returns Noun if entry with said id is in table, null otherwise
     @Override
-    public Noun getNounById(long id){
-        return (Noun) chineseSimplifiedRepository.findById(id).orElse(null);
+    public NounDTO getNounById(long id){
+        ChineseSimplified noun = this.chineseSimplifiedRepository.findById(id).orElse(null);
+        return NounDTO.builder().noun(noun).build();
     }
 
     @Override
-    public Noun getNounByValue(String value) {
+    public NounDTO getNounByValue(String value) {
         return null;
     }
 
     //Return random Noun from table for noun of the day feature
     @Override
-    public Noun nounOfTheDay(){
-        int[] nounsInTable = {0};
+    public NounDTO nounOfTheDay(){
         Random randomNum = new Random();
         LinkedList<Long> nounIds = new LinkedList<>();
 
@@ -46,11 +48,14 @@ public class ChineseSimplifiedService implements WordInterface{
         }
 
         long randomId = nounIds.get(randomNum.nextInt(nounIds.size()));
-        return this.chineseSimplifiedRepository.findById(randomId).orElse(null);
+        ChineseSimplified randomWord = this.chineseSimplifiedRepository.findById(randomId).orElse(null);
+        return NounDTO.builder().noun(randomWord).build();
     }
 
     @Override
-    public Noun saveNoun(Noun noun) {
-        return null;
+    public NounDTO saveNoun(NounDTO noun) {
+        ChineseSimplified zhsWord = ChineseSimplified.builder().noun(noun).tone(noun.getTone()).build();
+        ChineseSimplified savedWord = this.chineseSimplifiedRepository.save(zhsWord);
+        return NounDTO.builder().noun(savedWord).tone(savedWord.getTone()).build();
     }
 }

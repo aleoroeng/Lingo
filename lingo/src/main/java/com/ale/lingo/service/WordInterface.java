@@ -1,10 +1,10 @@
 package com.ale.lingo.service;
 
-import com.ale.lingo.model.Noun;
+import com.ale.lingo.dto.NounDTO;
 
 public interface WordInterface {
-    Noun nounOfTheDay();
-    Noun saveNoun(Noun noun);
-    Noun getNounById(long id);
-    Noun getNounByValue(String value);
+    NounDTO nounOfTheDay();
+    NounDTO saveNoun(NounDTO noun);
+    NounDTO getNounById(long id);
+    NounDTO getNounByValue(String value);
 }

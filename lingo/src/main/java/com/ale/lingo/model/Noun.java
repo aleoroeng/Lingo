@@ -1,15 +1,26 @@
 package com.ale.lingo.model;
 
-import com.ale.lingo.enums.LanguageCode;
 import com.ale.lingo.enums.WordAttributes;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Noun{
-
-
+public abstract class Noun{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected long id;
@@ -17,63 +28,5 @@ public class Noun{
     protected WordAttributes nounAttribute;
     protected String value;
     protected boolean approved;
-    @Enumerated(EnumType.ORDINAL)
-    protected LanguageCode languageCode;
-
-    public Noun(){}
-    public Noun(String value){
-        this.value = value;
-    }
-    public Noun(long id, WordAttributes nounAttribute, String value) {
-        this.id = id;
-        this.nounAttribute = nounAttribute;
-        this.value = value;
-        this.approved = false;
-    }
-
-    public LanguageCode getLanguageCode() {
-        return languageCode;
-    }
-
-    public void setLanguageCode(LanguageCode languageCode) {
-        this.languageCode = languageCode;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public WordAttributes getNounAttribute() {
-        return nounAttribute;
-    }
-
-    public void setNounAttribute(WordAttributes nounAttribute) {
-        this.nounAttribute = nounAttribute;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Noun{" +
-                "id=" + id +
-                ", nounAttribute=" + nounAttribute +
-                ", value='" + value + '\'' +
-                ", approved=" + approved +
-                '}';
-    }
+    protected String languageCode;
 }

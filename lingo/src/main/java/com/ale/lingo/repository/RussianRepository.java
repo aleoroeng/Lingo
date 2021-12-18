@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RussianRepository extends JpaRepository<Russian, Long> {
-    Noun findByValue(String value);
+    Russian findByValue(String value);
 }
