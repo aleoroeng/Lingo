@@ -1,9 +1,10 @@
-package com.ale.lingo.service;
+package com.ale.lingo.service.implementation;
 
 import com.ale.lingo.dto.NounDTO;
-import com.ale.lingo.model.ChineseTraditional;
+import com.ale.lingo.model.Japanese;
 import com.ale.lingo.model.Noun;
-import com.ale.lingo.repository.ChineseTraditionalRepository;
+import com.ale.lingo.repository.JapaneseRepository;
+import com.ale.lingo.service.WordInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.Random;
 
-@Service("ZHT")
-public class ChineseTraditionalService implements WordInterface{
+@Service("JP")
+public class JapaneseService implements WordInterface {
 
-    private final ChineseTraditionalRepository chineseTraditionalRepository;
+    private final JapaneseRepository japaneseRepository;
 
     @Autowired
-    public ChineseTraditionalService(ChineseTraditionalRepository chineseTraditionalRepository) {
-        this.chineseTraditionalRepository = chineseTraditionalRepository;
+    public JapaneseService(JapaneseRepository japaneseRepository) {
+        this.japaneseRepository = japaneseRepository;
     }
 
     //Method that returns Noun if entry with said id is in table, null otherwise
@@ -31,7 +32,7 @@ public class ChineseTraditionalService implements WordInterface{
         Random randomNum = new Random();
         LinkedList<Long> nounIds = new LinkedList<>();
 
-        this.chineseTraditionalRepository.findAll().forEach((element)->{
+        this.japaneseRepository.findAll().forEach((element)->{
             nounIds.add(element.getId()); // Need to use list because non-final variable cannot be mutated inside lambda expression
         });
         int amountOfIds = nounIds.size();
@@ -42,7 +43,7 @@ public class ChineseTraditionalService implements WordInterface{
         }
 
         long randomId = nounIds.get(randomNum.nextInt(nounIds.size()));
-        ChineseTraditional randomWord = this.chineseTraditionalRepository.findById(randomId).orElse(null);
+        Japanese randomWord = this.japaneseRepository.findById(randomId).orElse(null);
         return NounDTO.builder().noun(randomWord).build();
     }
 

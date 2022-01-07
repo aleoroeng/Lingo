@@ -1,8 +1,9 @@
-package com.ale.lingo.service;
+package com.ale.lingo.service.implementation;
 
 import com.ale.lingo.dto.NounDTO;
 import com.ale.lingo.model.ChineseSimplified;
 import com.ale.lingo.repository.ChineseSimplifiedRepository;
+import com.ale.lingo.service.WordInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 @Service("ZHS")
-public class ChineseSimplifiedService implements WordInterface{
+public class ChineseSimplifiedService implements WordInterface {
 
     private final ChineseSimplifiedRepository chineseSimplifiedRepository;
 

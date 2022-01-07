@@ -1,9 +1,10 @@
-package com.ale.lingo.service;
+package com.ale.lingo.service.implementation;
 
 import com.ale.lingo.dto.NounDTO;
-import com.ale.lingo.model.Korean;
+import com.ale.lingo.model.ChineseTraditional;
 import com.ale.lingo.model.Noun;
-import com.ale.lingo.repository.KoreanRepository;
+import com.ale.lingo.repository.ChineseTraditionalRepository;
+import com.ale.lingo.service.WordInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,15 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.Random;
 
-@Service("KO")
-public class KoreanService implements WordInterface{
+@Service("ZHT")
+public class ChineseTraditionalService implements WordInterface {
 
-    private final KoreanRepository koreanRepository;
+    private final ChineseTraditionalRepository chineseTraditionalRepository;
 
     @Autowired
-    public KoreanService(KoreanRepository koreanRepository){this.koreanRepository = koreanRepository;}
+    public ChineseTraditionalService(ChineseTraditionalRepository chineseTraditionalRepository) {
+        this.chineseTraditionalRepository = chineseTraditionalRepository;
+    }
 
     //Method that returns Noun if entry with said id is in table, null otherwise
     public Noun getNounById(long id, JpaRepository repository){
@@ -29,7 +32,7 @@ public class KoreanService implements WordInterface{
         Random randomNum = new Random();
         LinkedList<Long> nounIds = new LinkedList<>();
 
-        this.koreanRepository.findAll().forEach((element)->{
+        this.chineseTraditionalRepository.findAll().forEach((element)->{
             nounIds.add(element.getId()); // Need to use list because non-final variable cannot be mutated inside lambda expression
         });
         int amountOfIds = nounIds.size();
@@ -40,7 +43,7 @@ public class KoreanService implements WordInterface{
         }
 
         long randomId = nounIds.get(randomNum.nextInt(nounIds.size()));
-        Korean randomWord = this.koreanRepository.findById(randomId).orElse(null);
+        ChineseTraditional randomWord = this.chineseTraditionalRepository.findById(randomId).orElse(null);
         return NounDTO.builder().noun(randomWord).build();
     }
 
